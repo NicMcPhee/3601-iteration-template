@@ -1,5 +1,6 @@
 services:
   server:
+    container_name: server
     build: ./server # Location of the Dockerfile for the client
     restart: always
     environment:
@@ -14,15 +15,16 @@ services:
     ports:
       - "80:4567"
   mongo:
-      image: mongo
-      restart: always
-      environment:
-        MONGO_DB: prod
-      networks:
-        - mongo-network
-      volumes:
-          - mongo_data:/data/db
-          - ./database:/docker-entrypoint-initdb.d
+    container_name: mongo
+    image: mongo
+    restart: always
+    environment:
+      MONGO_DB: prod
+    networks:
+      - mongo-network
+    volumes:
+        - mongo_data:/data/db
+        - ./database:/docker-entrypoint-initdb.d
 
 networks:
   java-server-network:
