@@ -4,7 +4,7 @@ FROM openjdk:11-jdk-slim AS build
 COPY . /tmp/server
 WORKDIR /tmp/server
 # Build the server with Gradle
-RUN ./gradlew assemble --no-daemon
+RUN ./gradlew assemble
 
 # Build the production server container
 FROM openjdk:11-jdk-slim
@@ -13,7 +13,7 @@ EXPOSE 4567
 COPY --from=build /tmp/server/build/distributions/server.tar /app/
 WORKDIR /app
 # Untar the server files
-RUN tar -xvf server.tar
+RUN tar -xf server.tar
 
 ## Add the wait script to the image
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
